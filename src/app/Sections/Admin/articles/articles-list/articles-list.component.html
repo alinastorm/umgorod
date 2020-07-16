@@ -1,0 +1,122 @@
+<!-- Изменение -->
+<form>
+  <mat-expansion-panel
+    *ngFor="let article of articles$ | async; let i = index"
+    (opened)="setStep(i)"
+    [expanded]="step === i"
+    hideToggle
+  >
+    <!-- Заголовок строк -->
+    <mat-expansion-panel-header class="border">
+      <mat-panel-title>
+        {{ article.nameArticle }}
+      </mat-panel-title>
+      <mat-panel-title>
+        {{ article.id }}
+      </mat-panel-title>
+      <div class="float-right">
+        <mat-panel-description>
+          <mat-icon>article</mat-icon>
+        </mat-panel-description>
+      </div>
+    </mat-expansion-panel-header>
+    <!-- /Заголовок строк -->
+
+    <!-- Строки -->
+
+    <div class="example-flex-container">
+      <div class="example-container">
+        <mat-form-field>
+          <mat-label>Order</mat-label>
+          <input
+            matInput
+            type="number"
+            min="1"
+            max="10"
+            readonly
+            [value]="article.order"
+          />
+        </mat-form-field>
+      </div>
+
+      <div class="example-container">
+        <mat-form-field>
+          <mat-label>Date</mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker"
+         
+            readonly
+            [value]="getDate(article.date)"
+          />
+        </mat-form-field>
+        <mat-datepicker #picker></mat-datepicker>
+      </div>
+
+      <div class="example-container">
+        <mat-form-field>
+          <mat-label>NameArticle</mat-label>
+
+          <input matInput readonly [value]="article.nameArticle" />
+        </mat-form-field>
+      </div>
+
+      <div class="example-container">
+        <mat-form-field>
+          <mat-label>City</mat-label>
+          <input matInput readonly [value]="article.city" />
+        </mat-form-field>
+      </div>
+
+      <div class="example-container">
+        <mat-form-field>
+          <mat-label>Human</mat-label>
+          <input matInput readonly [value]="article.human" />
+        </mat-form-field>
+      </div>
+
+      <div class="example-container">
+        <mat-form-field>
+          <mat-label>Idea</mat-label>
+          <input matInput readonly [value]="article.idea" />
+        </mat-form-field>
+      </div>
+      <!-- /Строки -->
+      <!-- HTML Button -->
+      <div class="example-container">
+        <button
+          class=""
+          mat-mini-fab
+          color="primary"
+          aria-label="Example icon button with a menu icon"
+          (click)="editHTMLArticle(article)"
+        >
+          <mat-icon>edit</mat-icon>
+
+          <!-- <mat-icon>html</mat-icon> -->
+        </button>
+      </div>
+      <!-- HTML Button -->
+      <!-- Save Button -->
+      <!-- <div class="example-container">
+        <button
+          class=""
+          mat-mini-fab
+          color="primary"
+          aria-label="Example icon button with a menu icon"
+        >
+          <mat-icon>save</mat-icon>
+        </button>
+      </div> -->
+      <!-- /Save Button -->
+    </div>
+    <!-- Next Previous Button -->
+    <mat-action-row>
+      <button *ngIf="i != 0" mat-button color="warn" (click)="prevStep()">
+        Previous
+      </button>
+      <button mat-button color="primary" (click)="nextStep()">Next</button>
+    </mat-action-row>
+    <!-- Next Previous Button -->
+  </mat-expansion-panel>
+</form>

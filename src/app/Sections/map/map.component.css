@@ -1,0 +1,38 @@
+.imgInfo{
+    width: 100%;  
+  }
+  ::ng-deep .aligncenter {
+    display: block;
+    margin: 0 auto;
+    }
+    /* ._minheight10rem{
+      min-height: 10rem;
+    } */
+    ._bgcollor{
+      background-color: #ccc;
+    }
+._borderRow{
+  border: 5px solid #000;
+}
+._borderCol{
+  border: 2px solid rgb(240, 13, 13);
+}
+
+.example-additional-selection {
+  opacity: 0.75;
+  font-size: 0.75em;
+}
+
+#filterButton {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 1;
+}
+/* .example-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+} */

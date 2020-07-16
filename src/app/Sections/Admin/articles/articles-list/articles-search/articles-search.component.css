@@ -1,0 +1,13 @@
+.example-flex-container {
+    display: flex ;
+    flex-direction: row ;
+    flex-wrap: wrap ;
+    justify-content: space-around;
+    align-items: center ;
+    align-content: center ;
+  }
+  
+  .example-container {
+   text-align: center;
+   min-width: auto;
+  }

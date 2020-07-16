@@ -1,0 +1,29 @@
+.logo{
+    height: 50px;
+    width:auto
+  }
+
+  .example-spacer {
+    flex: 1 1 auto;
+  }
+  
+
+
+/* large device , Wide screens */
+@media only screen and (max-width: 1200px) {
+}
+/* Medium device, Desktops */
+@media only screen and (min-width: 992px) {
+        .menu{
+          display: none; 
+          /* visibility: hidden */
+        }
+}
+/* Small device, Tablets */
+@media only screen and (min-width:  768px) {
+}
+/* Extra small device, Phones */
+@media only screen and (min-width:  480px) {
+
+}
+

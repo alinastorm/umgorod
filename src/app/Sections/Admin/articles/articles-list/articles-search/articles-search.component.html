@@ -1,0 +1,103 @@
+<div class="example-container">
+  <button id="filterButton" mat-mini-fab color="warn" (click)="filterOpen=!filterOpen">
+    <mat-icon>filter_list</mat-icon>
+  </button>
+</div>
+
+<ng-container  *ngIf="filterOpen">
+  <form [formGroup]="formSearch">
+    <div class="example-flex-container">
+      <ng-container *ngFor="let item of controls">
+        <div class="example-container" *ngIf="item === 'order'">
+          <mat-form-field>
+            <mat-label>Order</mat-label>
+            <input
+              matInput
+              type="number"
+              min="1"
+              max="10"
+              formControlName="order"
+              value="formSearch.value.order"
+            />
+            <button
+              mat-button
+              *ngIf="formSearch.value.order"
+              matSuffix
+              mat-icon-button
+              aria-label="Clear"
+              (click)="this.formSearch.controls['order'].setValue('')"
+            >
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+
+        <div class="example-container" *ngIf="item === 'date'">
+          <mat-form-field>
+            <mat-label>Date</mat-label>
+            <input
+              matInput
+              [matDatepicker]="picker"
+              (click)="picker.open()"
+              readonly
+              formControlName="date"
+              value="data[item]"
+            />
+            <button
+              mat-button
+              *ngIf="formSearch.value.date"
+              matSuffix
+              mat-icon-button
+              aria-label="Clear"
+              (click)="this.formSearch.controls['date'].setValue('')"
+            >
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+          <mat-datepicker #picker></mat-datepicker>
+        </div>
+
+        <div
+          class="example-container"
+          *ngIf="item != 'date' && item != 'order' && item != 'html'"
+        >
+          <mat-form-field>
+            <mat-label>{{ item }}</mat-label>
+            <input matInput formControlName="{{ item }}" value="data[item]" />
+            <button
+              mat-button
+              *ngIf="formSearch.value[item]"
+              matSuffix
+              mat-icon-button
+              aria-label="Clear"
+              (click)="this.formSearch.controls[item].setValue('')"
+            >
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+        <!-- 
+        <div class="example-container">
+          <mat-form-field>
+            <mat-label>City</mat-label>
+            <input matInput formControlName="city" />
+          </mat-form-field>
+        </div>
+  
+        <div class="example-container">
+          <mat-form-field>
+            <mat-label>Human</mat-label>
+            <input matInput formControlName="human" />
+          </mat-form-field>
+        </div>
+  
+        <div class="example-container">
+          <mat-form-field>
+            <mat-label>Idea</mat-label>
+            <input matInput formControlName="idea" />
+          </mat-form-field>
+        </div> -->
+      </ng-container>
+    </div>
+  </form>
+</ng-container>

@@ -1,0 +1,10 @@
+<div class="container">
+  <div class="row" *ngFor="let article of articles | async">
+    <ng-container *ngIf="article.city">
+      <div class="col">
+        <div class="ck-content" [innerHTML]="article.html | sanitizeHtml"></div>
+        <hr />
+      </div>
+    </ng-container>
+  </div>
+</div>

@@ -1,42 +1,6 @@
-<google-map
-  height="400px"
-  width="100%"
-  [zoom]="zoom"
-  [center]="center"
-  [options]="options"
-  (mapClick)="click($event)"
->
-  <map-marker
-    #markerElem
-    *ngFor="let marker of umMarkers | async"
-    [position]="marker.position"
-    [title]="marker.title"
-    [options]="marker.options"
-    (mapClick)="openInfo(markerElem, marker)"
-  >
-  </map-marker>
+<app-header></app-header>
 
-  <map-marker
-    #markerElem
-    *ngFor="let chMarker of chMarkers | async"
-    [position]="chMarker.position"
-    [title]="chMarker.title"
-    [options]="chMarker.options"
-    (mapClick)="openInfo(markerElem, chMarker)"
-    >
-    <!-- [label]="marker.label" -->
-  </map-marker>
+<router-outlet></router-outlet>
 
-  <map-info-window>
-    <img class="imgInfo" *ngFor="let item of marker.imgs" [src]="item" />
-
-    <div class="">
-      {{ infoContent }}
-    </div>
-  </map-info-window>
-</google-map>
-
-<!-- <button (click)="zoomIn()">Zoom in</button>
-<button (click)="zoomOut()">Zoom out</button>
-<button (click)="logCenter()">Log center</button> -->
-<!-- <button (click)="addMarker()">Add marker</button> -->
+<!-- <app-cities [city]="this.city"></app-cities> -->
+<!-- <button (click)= consoleL()>test</button> -->

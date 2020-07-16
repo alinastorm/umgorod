@@ -1,0 +1,16 @@
+<div class="example-container text-center pt-4">
+    <mat-form-field appearance="fill">
+      <mat-label>Select</mat-label>
+      <mat-select>
+        <mat-option value="option" *ngFor="let category of categories|async">{{category.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>   
+  <br>
+  <mat-form-field appearance="fill">
+      <mat-label>edit</mat-label>
+      <input matInput>
+    </mat-form-field>
+    <br>
+    <button class="btn btn-primary">Add</button>
+</div>
+

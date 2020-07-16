@@ -1,0 +1,32 @@
+<!-- <mat-sidenav-container class="example-container">
+  <mat-sidenav opened mode="side">
+    <mat-action-list>
+      <button mat-list-item routerLink="images">Images</button>
+      <button mat-list-item routerLink="category">Category</button>
+      <button mat-list-item >Партнеры</button>
+    </mat-action-list>
+  </mat-sidenav>
+  <router-outlet></router-outlet>
+</mat-sidenav-container> -->
+<mat-tab-group mat-align-tabs="center" animationDuration="0ms">
+
+  <mat-tab label="Articles">
+    <app-articles></app-articles>
+  </mat-tab>
+
+  <mat-tab label="Main">
+  
+  </mat-tab>
+
+  <mat-tab label="Upload">
+    <app-upload-edit></app-upload-edit>
+  </mat-tab>
+
+  <mat-tab label="People">
+    <app-people-edit></app-people-edit>
+  </mat-tab>
+
+  <mat-tab label="Partners">
+    <app-partners-edit></app-partners-edit>
+  </mat-tab>
+</mat-tab-group>

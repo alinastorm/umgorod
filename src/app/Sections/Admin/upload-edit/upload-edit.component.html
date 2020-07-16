@@ -1,0 +1,77 @@
+<div class="container">
+  <div class="row pt-4">
+    <div class="col-md-2">
+      <div class="card">
+        <form
+          [formGroup]="formTemplate"
+          (submit)="onSubmit(formTemplate.value)"
+        >
+          <input
+            type="file"
+            accept="img/*"
+            style="display: none;"
+            #fileInput
+            (change)="onFileSelected($event)"
+            formControlName="imageUrl"
+          />
+          <img
+            src="{{ imgSrc }}"
+            class="_card-img"
+            alt="..."
+            (click)="fileInput.click()"
+          />
+          <div class="card-body text-center">
+            <!-- <h5 class="card-title">Card title</h5> -->
+            <!-- <mat-form-field>
+              <mat-label>Категория</mat-label>
+              <mat-select formControlName="category">
+                <mat-option>-- None --</mat-option>
+                <mat-optgroup
+                  *ngFor="let category of categories | async"
+                  [label]="category.name"
+                  [disabled]="category.disabled"
+                >
+                  <mat-option
+                    *ngFor="let city of category.values | async"
+                    [value]="city.value"
+                    (click)="onChangeCategory()"
+                  >
+                    {{ city.viewValue }}
+                  </mat-option>
+                </mat-optgroup>
+              </mat-select>
+            </mat-form-field> -->
+            <button
+              type="submit"
+              [className]="
+                !formTemplate.valid ? 'btn btn-danger' : 'btn btn-primary'
+              "
+              [disabled]="!formTemplate.valid"
+            >
+              Upload
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="col-md-2" *ngFor="let img of imgs | async">
+      <div class="card">
+        <img src="{{ img.imageUrl }}" class="_card-img" alt="..." />
+        <div class="_card-text">
+          <!-- <h5 class="card-title">Card title</h5> -->
+
+          <input
+            type="text"
+            style="width: 100%;"
+            title="Link"
+            value="{{ img.imageUrl }}"
+          />
+
+          <p class="_card-text text-center">{{ img.category }}</p>
+          <a  class="btn btn-primary" (click)='onDelete(img)'>Delete</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
