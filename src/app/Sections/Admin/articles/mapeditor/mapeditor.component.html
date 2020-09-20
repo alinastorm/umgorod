@@ -27,71 +27,52 @@
     <!-- Данные marker-->
     <form [formGroup]="formItems">
       <div class="example-flex-container">
-        <ng-container *ngFor="let item of controls">
+        <ng-container *ngFor="let control of controls">
           <div class="col">
-            <!-- <div class="example-container" *ngIf="item === 'order'">
-                  <mat-form-field>
-                    <mat-label>Order</mat-label>
-                    <input
-                      matInput
-                      type="number"
-                      min="1"
-                      max="10"
-                      formControlName="order"
-                      [value]="data[item]"
-                    />
-                  </mat-form-field>
-                </div> -->
-
-            <!-- <div class="example-container" *ngIf="item === 'date'">
-                  <mat-form-field>
-                    <mat-label>Date</mat-label>
-                    <input
-                      matInput
-                      [matDatepicker]="picker"
-                      (focus)="picker.open()"
-                      (click)="picker.open()"
-                      readonly
-                      formControlName="date"
-                     
-                    />
-                  </mat-form-field>
-                  <mat-datepicker #picker></mat-datepicker>
-                </div> -->
-
-            <div class="example-container" *ngIf="item != 'marker'&&item != 'position'">
+            <div
+              class="example-container"
+              *ngIf="control != 'marker' && control != 'position'"
+            >
               <mat-form-field>
-                <mat-label>{{ item }}</mat-label>
+                <mat-label>{{ control }}</mat-label>
                 <input
                   matInput
-                  formControlName="{{ item }}"
-                  [value]="data[item]"
+                  formControlName="{{ control }}"
+                  [value]="data[control]"
                 />
               </mat-form-field>
             </div>
-            <!-- 
-                  <div class="example-container">
-                    <mat-form-field>
-                      <mat-label>City</mat-label>
-                      <input matInput formControlName="city" />
-                    </mat-form-field>
-                  </div>
-            
-                  <div class="example-container">
-                    <mat-form-field>
-                      <mat-label>Human</mat-label>
-                      <input matInput formControlName="human" />
-                    </mat-form-field>
-                  </div>
-            
-                  <div class="example-container">
-                    <mat-form-field>
-                      <mat-label>Idea</mat-label>
-                      <input matInput formControlName="idea" />
-                    </mat-form-field>
-                  </div> -->
           </div>
         </ng-container>
+
+        <div class="col">
+          <div class="example-container">
+            <mat-form-field>
+              <mat-label>lat</mat-label>
+              <input
+                type="number"
+                matInput
+                [value]="article.marker.position.lat"
+                #lat
+                (change)="changeLat(+lat.value)"
+              />
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="col">
+          <div class="example-container">
+            <mat-form-field>
+              <mat-label>lng</mat-label>
+              <input
+                type="number"
+                matInput
+                [value]="article.marker.position.lng"
+                #lng
+                (change)="changeLng(+lng.value)"
+              />
+            </mat-form-field>
+          </div>
+        </div>
       </div>
     </form>
 
@@ -111,7 +92,7 @@
     <!-- //CKEditor -->
     <!-- <p><button mat-button >Open</button></p> -->
   </div>
-<!-- Карта -->
+  <!-- Карта -->
   <div class="row">
     <div class="col border p-0">
       <google-map
@@ -120,18 +101,17 @@
         [zoom]="zoom"
         [center]="center"
         [options]="options"
-        (mapClick)="click($event)"
+        (mapClick)="changePositionOnMap($event)"
       >
-       
-          <map-marker
-            #markerElem
-            [position]="article.marker.position"
-            [title]="article.marker.title"
-            [options]="article.options"
-            (mapClick)="openInfo(markerElem, article)"
-          >
-          </map-marker>
-       
+        <map-marker
+          *ngIf="article.marker.position.lng && article.marker.position.lat"
+          #markerElem
+          [position]="article.marker.position"
+          [title]="article.marker.title"
+          [options]="article.options"
+          (mapClick)="openInfo(markerElem, article)"
+        >
+        </map-marker>
 
         <!-- <map-marker
               #markerElem
@@ -151,7 +131,7 @@
                 [src]="item"
               /> -->
 
-          <div class="test" [innerHTML]="infoContent | sanitizeHtml">
+          <div [innerHTML]="infoContent | sanitizeHtml">
             <!-- {{ infoContent }} -->
           </div>
         </map-info-window>
@@ -163,7 +143,7 @@
       <!-- <button (click)="addMarker()">Add marker</button> -->
     </div>
   </div>
-<!-- Статья при нажатии на иконку -->
+  <!-- Статья при нажатии на иконку -->
   <div class="row justify-content-center">
     <div class="ml-5 mr-5 col-10">
       <div [innerHTML]="htmlStr"></div>

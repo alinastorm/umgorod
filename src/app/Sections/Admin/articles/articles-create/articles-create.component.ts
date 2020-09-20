@@ -36,7 +36,7 @@ export class ArticlesCreateComponent implements OnInit {
     marker: {
       title: '',
       html: '',
-      position: {
+      position: {//!? дополнительный уровень так как google map настройки берет из поля position
         lat: '',
         lng: ''
       },

@@ -9,7 +9,7 @@ import { AngularFireStorage } from '@angular/fire/storage';
 import { FireBaseService, url } from 'src/app/shared/fireBase.service';
 import { finalize, take } from 'rxjs/operators';
 import { promise } from 'protractor';
-import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { FormControl, Validators, FormGroup, FormBuilder, NgModel } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { DateAdapter } from '@angular/material/core';
 import { Observable } from 'rxjs';
@@ -77,14 +77,14 @@ export class MapeditorComponent implements OnInit {
   ngOnInit(): void {
     this.formItems = this.formBuilder.group(this.data.item.marker)
     this.controls = Object.keys(this.data.item.marker)
-//TODO
+    //TODO
     // navigator.geolocation.getCurrentPosition(position => {
-      this.center = {
-        lat: 53.5460178,
-        // lat: position.coords.latitude,
-        lng: 25.877355,
-        // lng: position.coords.longitude,
-      }
+    this.center = {
+      lat: 53.5460178,
+      // lat: position.coords.latitude,
+      lng: 25.877355,
+      // lng: position.coords.longitude,
+    }
     // })
 
   }
@@ -123,17 +123,23 @@ export class MapeditorComponent implements OnInit {
     if (this.zoom > this.options.minZoom) this.zoom--
   }
 
-  click(event: google.maps.MouseEvent) {
-    // this.map.mapClick.
-    this.formItems.controls['position'].setValue( {
-      lat: event.latLng.lat(),
-      lng: event.latLng.lng()
-    })
-    this.article.marker.position = {
-      lat: event.latLng.lat(),
-      lng: event.latLng.lng()
-    }
+  changeLat(lat: number) {
+    this.changePosition({ lat })
+  }
 
+  changeLng(lng: number) {
+    this.changePosition({ lng })
+  }
+
+  changePositionOnMap(event: google.maps.MouseEvent) {
+    this.changePosition({ lat: event.latLng.lat(), lng: event.latLng.lng() })
+  }
+
+  changePosition(params: { [key: string]: number; }) {
+    let lat = params.lat || this.article.marker.position.lat;
+    let lng = params.lng || this.article.marker.position.lng
+    this.formItems.controls['position'].setValue({ lat, lng })
+    this.article.marker.position = { lat, lng }
   }
 
   logCenter() {
