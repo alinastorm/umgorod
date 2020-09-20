@@ -6,8 +6,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class ConsolePipe implements PipeTransform {
   constructor() { }
-  transform(value: any, marker: string): any {
-    console.log("ConsolePipe -> ------------>" + marker + ':', value)
-    return value;
+  transform(value: any, marker=''): any {
+    console.log(`"ConsolePipe -> ------------>${marker}:`,value)
+     return value;
   }
 }

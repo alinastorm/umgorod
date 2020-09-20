@@ -14,7 +14,7 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
 import {MatButtonModule} from '@angular/material/button';
 // import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatCardModule} from '@angular/material/card';
-// import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 // import {MatChipsModule} from '@angular/material/chips';
 // import {MatStepperModule} from '@angular/material/stepper';
 import {MatDatepickerModule} from '@angular/material/datepicker';
@@ -34,7 +34,7 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatSelectModule} from '@angular/material/select';
 import {MatSidenavModule} from '@angular/material/sidenav';
 // import {MatSliderModule} from '@angular/material/slider';
-// import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 // import {MatSnackBarModule} from '@angular/material/snack-bar';
 // import {MatSortModule} from '@angular/material/sort';
 import {MatTableModule} from '@angular/material/table';
@@ -61,7 +61,7 @@ import {MatTreeModule} from '@angular/material/tree';
     MatButtonModule,
     // MatButtonToggleModule,
     MatCardModule,
-    // MatCheckboxModule,
+    MatCheckboxModule,
     // MatChipsModule,
     // MatStepperModule,
     MatDatepickerModule,
@@ -81,7 +81,7 @@ import {MatTreeModule} from '@angular/material/tree';
     MatSelectModule,
     MatSidenavModule,
     // MatSliderModule,
-    // MatSlideToggleModule,
+    MatSlideToggleModule,
     // MatSnackBarModule,
     // MatSortModule,
     MatTableModule,

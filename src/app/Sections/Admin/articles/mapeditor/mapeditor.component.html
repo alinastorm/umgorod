@@ -1,0 +1,172 @@
+<!-- Панель управления -->
+<div class="container">
+  <div class="row">
+    <div class="text-center">
+      <button
+        class="m-4"
+        mat-mini-fab
+        mat-dialog-close
+        color="primary"
+        aria-label="Example icon button with a menu icon"
+        (click)="save()"
+      >
+        <mat-icon>save</mat-icon>
+      </button>
+
+      <button
+        class="m-4"
+        mat-mini-fab
+        mat-dialog-close
+        color="warn"
+        aria-label="Example icon button with a menu icon"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <!-- Данные marker-->
+    <form [formGroup]="formItems">
+      <div class="example-flex-container">
+        <ng-container *ngFor="let item of controls">
+          <div class="col">
+            <!-- <div class="example-container" *ngIf="item === 'order'">
+                  <mat-form-field>
+                    <mat-label>Order</mat-label>
+                    <input
+                      matInput
+                      type="number"
+                      min="1"
+                      max="10"
+                      formControlName="order"
+                      [value]="data[item]"
+                    />
+                  </mat-form-field>
+                </div> -->
+
+            <!-- <div class="example-container" *ngIf="item === 'date'">
+                  <mat-form-field>
+                    <mat-label>Date</mat-label>
+                    <input
+                      matInput
+                      [matDatepicker]="picker"
+                      (focus)="picker.open()"
+                      (click)="picker.open()"
+                      readonly
+                      formControlName="date"
+                     
+                    />
+                  </mat-form-field>
+                  <mat-datepicker #picker></mat-datepicker>
+                </div> -->
+
+            <div class="example-container" *ngIf="item != 'marker'&&item != 'position'">
+              <mat-form-field>
+                <mat-label>{{ item }}</mat-label>
+                <input
+                  matInput
+                  formControlName="{{ item }}"
+                  [value]="data[item]"
+                />
+              </mat-form-field>
+            </div>
+            <!-- 
+                  <div class="example-container">
+                    <mat-form-field>
+                      <mat-label>City</mat-label>
+                      <input matInput formControlName="city" />
+                    </mat-form-field>
+                  </div>
+            
+                  <div class="example-container">
+                    <mat-form-field>
+                      <mat-label>Human</mat-label>
+                      <input matInput formControlName="human" />
+                    </mat-form-field>
+                  </div>
+            
+                  <div class="example-container">
+                    <mat-form-field>
+                      <mat-label>Idea</mat-label>
+                      <input matInput formControlName="idea" />
+                    </mat-form-field>
+                  </div> -->
+          </div>
+        </ng-container>
+      </div>
+    </form>
+
+    <!-- /Данные -->
+    <!-- CKEditor -->
+    <!-- <ng-container *ngIf="this.visible">
+            
+            <mat-action-row>
+              <div class="container" >
+                <div class="row">
+                  <div class="col">
+                  </div>
+                </div>
+              </div>
+            </mat-action-row>
+            </ng-container> -->
+    <!-- //CKEditor -->
+    <!-- <p><button mat-button >Open</button></p> -->
+  </div>
+<!-- Карта -->
+  <div class="row">
+    <div class="col border p-0">
+      <google-map
+        height="600px"
+        width="100%"
+        [zoom]="zoom"
+        [center]="center"
+        [options]="options"
+        (mapClick)="click($event)"
+      >
+       
+          <map-marker
+            #markerElem
+            [position]="article.marker.position"
+            [title]="article.marker.title"
+            [options]="article.options"
+            (mapClick)="openInfo(markerElem, article)"
+          >
+          </map-marker>
+       
+
+        <!-- <map-marker
+              #markerElem
+              *ngFor="let chMarker of chMarkers | async"
+              [position]="chMarker.position"
+              [title]="chMarker.title"
+              [options]="chMarker.options"
+              (mapClick)="openInfo(markerElem, chMarker)"
+            > -->
+        <!-- [label]="marker.label" -->
+        <!-- </map-marker> -->
+
+        <map-info-window>
+          <!-- <img
+                class="imgInfo"
+                *ngFor="let item of marker.imgs"
+                [src]="item"
+              /> -->
+
+          <div class="test" [innerHTML]="infoContent | sanitizeHtml">
+            <!-- {{ infoContent }} -->
+          </div>
+        </map-info-window>
+      </google-map>
+
+      <!-- <button (click)="zoomIn()">Zoom in</button>
+      <button (click)="zoomOut()">Zoom out</button>
+      <button (click)="logCenter()">Log center</button> -->
+      <!-- <button (click)="addMarker()">Add marker</button> -->
+    </div>
+  </div>
+<!-- Статья при нажатии на иконку -->
+  <div class="row justify-content-center">
+    <div class="ml-5 mr-5 col-10">
+      <div [innerHTML]="htmlStr"></div>
+    </div>
+  </div>
+</div>

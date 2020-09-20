@@ -1,0 +1,46 @@
+<mat-drawer-container>
+  <mat-drawer #drawer mode="side" opened role="navigation">
+    <mat-option (click)="onClickMatOption()" routerLink="all">Все</mat-option>
+
+    <mat-expansion-panel
+      *ngFor="let group of navItems | async | groupBy: 'topic'"
+    >
+      <mat-expansion-panel-header
+        *ngIf="group.key != 'undefined' && group.key != ''"
+      >
+        <mat-panel-title>
+          <mat-panel-description>
+            <mat-optgroup class="group" [label]="group.key"> </mat-optgroup>
+          </mat-panel-description>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <mat-option
+        *ngFor="let article of group.value"
+        [value]="article.nameArticle"
+        (click)="onClickMatOption(article.id)"
+        [routerLink]="[article.id]"
+        routerLinkActive="active"
+      >
+        {{ article.nameArticle }}
+      </mat-option>
+    </mat-expansion-panel>
+  </mat-drawer>
+
+  <mat-drawer-content>
+    <router-outlet></router-outlet>
+  </mat-drawer-content>
+</mat-drawer-container>
+
+<app-footer>
+  <button
+    id="filterButton"
+    mat-mini-fab
+    color="warn"
+    style="opacity: 1;"
+    (click)="drawer.toggle()"
+    onclick="this.blur()"
+  >
+    <mat-icon>filter_list</mat-icon>
+  </button>
+</app-footer>

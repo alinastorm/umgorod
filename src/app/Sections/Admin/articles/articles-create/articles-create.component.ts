@@ -10,7 +10,7 @@ import { AngularFireStorage } from '@angular/fire/storage';
 import { FireBaseService, url } from 'src/app/shared/fireBase.service';
 import { finalize, take } from 'rxjs/operators';
 import { promise } from 'protractor';
-import { CkeditorComponent } from '../../ckeditor/ckeditor.component';
+import { CkeditorComponent } from '../ckeditor/ckeditor.component';
 import { FormBuilder, Validators, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Overlay } from '@angular/cdk/overlay';
@@ -19,20 +19,33 @@ import { Overlay } from '@angular/cdk/overlay';
   selector: 'app-articles-create',
   templateUrl: './articles-create.component.html',
   styleUrls: ['./articles-create.component.css'],
-  
+
 })
 export class ArticlesCreateComponent implements OnInit {
 
 
   article = {
-  
+
     order: '',
     date: '',
     nameArticle: '',
     city: '',
     human: '',
-    idea: '',
-    html: ''
+    topic: '',
+    html: '',
+    marker: {
+      title: '',
+      html: '',
+      position: {
+        lat: '',
+        lng: ''
+      },
+      icon: 'https://firebasestorage.googleapis.com/v0/b/umgorod-4ae1a.appspot.com/o/logo6.png?alt=media&token=e7ea3942-599c-4fd6-b9c9-62c506748416',
+    },
+    partners:'',
+    about: '',
+    contacts:''
+
   }
   // formAddArticle: FormGroup
   // order: FormControl
@@ -52,9 +65,9 @@ export class ArticlesCreateComponent implements OnInit {
     public dialog: MatDialog,
     public overlay: Overlay
   ) {
- 
 
-   }
+
+  }
 
   ngOnInit(): void {
 
@@ -86,15 +99,24 @@ export class ArticlesCreateComponent implements OnInit {
     let dialogRef = this.dialogOpen(this.article);
     dialogRef.afterClosed()
       .subscribe((result: any) => {
-        if(!result)return
+        if (!result) return
         this.fireBaseService.addArticle(result)
         this.fireBaseService.updateArticlesOrderFilter()
       })
   }
   dialogOpen(item) {
     return this.dialog.open(CkeditorComponent, {
-      autoFocus: false, restoreFocus: false, hasBackdrop: false, panelClass: item.id, maxHeight: '90vh',
-      data: item, scrollStrategy: this.overlay.scrollStrategies.noop()
+      autoFocus: false,
+      restoreFocus: false,
+      hasBackdrop: false,
+      panelClass: item.id,
+      maxHeight: '90vh',
+      data: {
+        item,
+        ckeditor: false
+      },
+      scrollStrategy: this.overlay.scrollStrategies.noop(),
+
     });
 
   }

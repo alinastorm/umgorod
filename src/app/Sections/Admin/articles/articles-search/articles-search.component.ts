@@ -8,35 +8,39 @@ import { EventEmitter } from '@angular/core';
   selector: 'app-articles-search',
   templateUrl: './articles-search.component.html',
   styleUrls: ['./articles-search.component.css'],
-  
+
 })
 export class ArticlesSearchComponent implements OnInit {
   data
   formSearch: FormGroup
   controls: string[]
   article = {
+    id: '',
     order: '',
     date: '',
     nameArticle: '',
     city: '',
     human: '',
-    idea: '',
-    html: ''
+    topic: '',
+    html: '',
+    partners: '',
+    about: '',
+    contacts: ''
   }
   controlSet: {}
- 
+
   filterOpen: boolean = false
 
   constructor(
     private fireBaseService: FireBaseService,
     private formBuilder: FormBuilder,
   ) {
-    
-   }
+
+  }
   ngOnInit(): void {
     this.formSearch = this.formBuilder.group(this.article)
     this.controls = Object.keys(this.article)
-   
+
 
 
     // Подписываемся на изменения полей
@@ -59,17 +63,17 @@ export class ArticlesSearchComponent implements OnInit {
         }
 
       }),
-      map((change)=>{
+      map((change) => {
         if (change.date) this.controlSet['date'] = this.formSearch.value.date.valueOf().toString()
         if (change.order) this.controlSet['order'] = this.formSearch.value.order.toString()
-      return change
+        return change
       })
     )
-      .subscribe((change:any) => {
-      console.log("ArticlesSearchComponent -> ngOnInit -> data", change)
-        if(change)this.fireBaseService.updateArticlesOrderFilter(this.controlSet)
+      .subscribe((change: any) => {
+        console.log("ArticlesSearchComponent -> ngOnInit -> data", change)
+        if (change) this.fireBaseService.updateArticlesOrderFilter(this.controlSet)
         else this.fireBaseService.updateArticlesOrderFilter()
-      } 
+      }
       )
     // for (const iterator of Object.keys(this.data)) {
     // }

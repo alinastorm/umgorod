@@ -59,7 +59,7 @@
         <mat-datepicker #picker></mat-datepicker>
       </div>
 
-      <div class="example-container" *ngIf="item != 'date' && item != 'order'">
+      <div class="example-container" *ngIf="item != 'date' && item != 'order'&& item != 'marker'">
         <mat-form-field>
           <mat-label>{{ item }}</mat-label>
           <input matInput formControlName="{{ item }}" [value]="data[item] " />
@@ -92,22 +92,24 @@
 
 <!-- /Данные -->
 <!-- CKEditor -->
+<ng-container *ngIf="this.visible">
 
-<mat-action-row>
-  <div class="container" >
-    <div class="row">
-      <div class="col">
-        <ckeditor
-          #ckeditor
-          [(ngModel)]="model.editorData"
-          [editor]="Editor"
-          data="<p>Hello, world!</p>"
-          (ready)="onReady($event)"
-          (change)="onChange($event)"
-          
-        ></ckeditor>
+  <mat-action-row>
+    <div class="container" >
+      <div class="row">
+        <div class="col">
+          <ckeditor
+            #ckeditor
+            [(ngModel)]="model.editorData"
+            [editor]="Editor"
+            data=""
+            (ready)="onReady($event)"
+            (change)="onChange($event)"
+            
+          ></ckeditor>
+        </div>
       </div>
     </div>
-  </div>
-</mat-action-row>
+  </mat-action-row>
+</ng-container>
 <!-- //CKEditor -->

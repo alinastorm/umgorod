@@ -1,0 +1,9 @@
+
+  .mat-toolbar, .mat-toolbar-row   {
+    position: fixed;
+    bottom: 0;
+    z-index: 1000;
+    /* min-height: 50px !important; */
+    box-shadow: 
+      0 -2px 18px 0 rgba(0, 0, 0, 0.2);
+    }

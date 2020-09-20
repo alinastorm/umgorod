@@ -9,6 +9,7 @@ import { tap } from 'rxjs/operators';
 import { Observable, BehaviorSubject, Subscription } from 'rxjs';
 
 import { DateAdapter } from '@angular/material/core';
+import { MapeditorComponent } from '../mapeditor/mapeditor.component';
 
 
 @Component({
@@ -76,37 +77,72 @@ export class ArticlesListComponent implements OnInit {
     this.step--;
   }
 
-  addArticle2(article) {
-    this.fireBaseService.addArticle(article)
+  // addArticle2(article) {
+  //   this.fireBaseService.addArticle(article)
 
-  }
+  // }
 
-  updateArticle2(article) {
-    // this.fireBaseService.updateArticle(article, article)
+  // updateArticle2(article) {
+  //   // this.fireBaseService.updateArticle(article, article)
 
+  // }
+  deleteArticle(id){
+    this.fireBaseService.deleteDocumentFireDB(id)
   }
   editHTMLArticle(article) {
-    let dialogRef = this.dialogOpen(article);
+    let dialogRef = this.dialogCKOpen(article);
     dialogRef.afterClosed()
       .subscribe((result: any) => {
-   
-        
+
+
         if (!result) return
         this.fireBaseService.updateArticle(result.id, result)
-        
+
         // this.fireBaseService.addArticle(result)
       })
   }
+  editMarkerArticle(article) {
+    let dialogRef = this.dialogMarkerOpen(article);
+    dialogRef.afterClosed()
+      .subscribe((result: any) => {
+        if (!result) return
+        this.fireBaseService.updateArticle(result.id, result)
 
+        // this.fireBaseService.addArticle(result)
+      })
+  }
+  
 
-  dialogOpen(item) {
+  dialogCKOpen(item) {
     return this.dialog.open(CkeditorComponent, {
-      autoFocus: false, restoreFocus: false, hasBackdrop: false, panelClass: item.id, maxHeight: '90vh',
-      data: item, scrollStrategy: this.overlay.scrollStrategies.noop()
+      autoFocus: false,
+      restoreFocus: false,
+      hasBackdrop: false,
+      panelClass: item.id,
+      maxHeight: '90vh',
+      data: {
+        item,
+        ckeditor: true
+      },
+      scrollStrategy: this.overlay.scrollStrategies.noop()
     });
 
   }
 
+  dialogMarkerOpen(item) {
+    return this.dialog.open(MapeditorComponent, {
+      autoFocus: false,
+      restoreFocus: false,
+      hasBackdrop: false,
+      panelClass: item.id,
+      maxHeight: '90vh',
+      minWidth: '100vh',
 
+      data: {item},
+      scrollStrategy: this.overlay.scrollStrategies.noop()
+    });
+
+  }
+  
 
 }

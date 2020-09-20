@@ -1,0 +1,8 @@
+.sticky{
+    z-index: 1;
+    /* position: sticky; */
+    top: 0;
+    margin: 2em;
+    min-height: 2em;
+    background: lightpink;
+}

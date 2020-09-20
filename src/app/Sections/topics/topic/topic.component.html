@@ -1,0 +1,14 @@
+<div class="container">
+    <div class="row" *ngFor="let article of elements | async">
+      <ng-container *ngIf="article.topic">
+        <div class="ml-2 col-md-10">
+          <div
+            class="ck-content"
+            [innerHTML]="article.html | sanitizeHtml"
+          >       
+        </div>
+    
+        </div>
+      </ng-container>
+    </div>
+  </div>

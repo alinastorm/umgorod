@@ -9,7 +9,7 @@ import { takeUntil } from 'rxjs/operators';
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.css']
 })
-export class MainComponent implements OnInit {
+export class MainComponent {
   articles
   
   constructor(
@@ -20,8 +20,6 @@ export class MainComponent implements OnInit {
     
    }
 
-  ngOnInit(): void {
-  }
 
 
 }

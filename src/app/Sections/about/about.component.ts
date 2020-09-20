@@ -9,7 +9,7 @@ import { AngularFireDatabase } from '@angular/fire/database';
   styleUrls: ['./about.component.css'],
   // encapsulation: ViewEncapsulation.None,
 })
-export class AboutComponent implements OnInit {
+export class AboutComponent {
   articles
   constructor(
     public firedb: AngularFireDatabase,
@@ -17,8 +17,5 @@ export class AboutComponent implements OnInit {
     this.articles = firedb.list('articles').valueChanges() 
    }
 
-  ngOnInit(): void {
-  
-  }
 
 }

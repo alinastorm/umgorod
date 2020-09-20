@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireList, AngularFireDatabase } from '@angular/fire/database';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { finalize, filter, map, tap, switchMap, exhaustMap, takeLast, takeUntil } from 'rxjs/operators';
-import { Observable, BehaviorSubject, NextObserver } from 'rxjs';
+import { Observable, BehaviorSubject, NextObserver, Subject } from 'rxjs';
 import { FirebaseApp } from '@angular/fire';
 import { FirebaseOperation } from '@angular/fire/database/interfaces';
 
@@ -13,7 +13,7 @@ import { FirebaseOperation } from '@angular/fire/database/interfaces';
 )
 export class FireBaseService {
   public urlImage
-  private articles$ = new BehaviorSubject<any[]>(null)
+  private articles$ = new BehaviorSubject<Array<Object>>(null)
   private _filterSelect
   public number
 
@@ -42,47 +42,59 @@ export class FireBaseService {
 
   }
 
-  getArticlesStateOrderFilter(orderFilter?: {}): Observable<any> {
-
-    // let filter = {[orderFilter]:orderFilter}
-    this.updateArticlesOrderFilter(orderFilter)
+  // getData
+  getArticlesStateOrderFilter(orderFilter?: {}, ids?): Observable<any> {
+    // this.updateArticlesOrderFilter(orderFilter, ids)
     return this.articles$.asObservable()
-
-    // return this.firedb.list("articles", (ref) => {
-    //   if (filterSelect) {
-    //     return ref.orderByChild(Object.keys(filterSelect)[0]).equalTo(filterSelect[Object.keys(filterSelect)[0]])
-    //   } else {
-    //     return ref
-    //   }
-    // }
   }
 
-  public updateArticlesOrderFilter(filterSelect?: {}) {
+  public updateArticlesOrderFilter(filterSelect?: {}, ids?) {// например {city:cyty} order by city and contains city
+  
     if (filterSelect) this._filterSelect = filterSelect//сохранение фильтра
     else this._filterSelect = null
 
-    var articlesRef
+    var articlesRef: firebase.database.Reference | firebase.database.Query
+    // 
+    // if (ids) {
+    //  let ref = this.firedb.database.ref('articles')
+    //   // Map the Firebase promises into an array
+    //   const dataPromises = ids.map(id => {
+    //     return ref.child(id).on('value', s => s)
+    //   })
+    //   // Wait for all the async requests mapped into 
+    //   // the array to complete
+    //   Promise.all(dataPromises)
+    //     .then(data => {
+    //     console.log("updateArticlesOrderFilter -> data", data)
+    //       // do something with the data
+    //       return
+    //     })
+    //     .catch(err => {
+    //       // handle error
+    //     })
+
+    //   } else
+    //все статьи
     if (!this._filterSelect) {
       articlesRef = this.firedb.database.ref('articles')
+      //город и его название
     } else if (this._filterSelect[Object.keys(this._filterSelect)[0]]) {
       articlesRef = this.firedb.database.ref('articles').orderByChild(Object.keys(this._filterSelect)[0]).equalTo(this._filterSelect[Object.keys(this._filterSelect)[0]])
+      //все города
     } else if (Object.keys(this._filterSelect)[0]) {
       articlesRef = this.firedb.database.ref('articles').orderByChild(Object.keys(this._filterSelect)[0])
 
     }
 
-    let mass = []
-    articlesRef.once('value', function (snapshot) {
-      snapshot.forEach(function (childSnapshot) {
+    let mass: Array<Object> = new Array
+    articlesRef.once('value').then(function (dataSnapshot) {
+      dataSnapshot.forEach((childSnapshot) => {
         var childData = childSnapshot.val();
         childData.id = childSnapshot.key;
         mass.push(childData)
       });
-    });
+    }).then(() => this.articles$.next(mass));
 
-
-
-    this.articles$.next(mass)
   }
   getImageDetailListFS() {
     return this.firedb.list("imageDetails")
@@ -104,7 +116,6 @@ export class FireBaseService {
       .pipe(
         takeLast(1),
         switchMap((msg) => {
-          console.log('msg', msg)
           return fileRef.getDownloadURL().pipe(map((url: any) => {
             formValue['imageUrl'] = url;
             this.insertImageDetail(formValue);
@@ -142,15 +153,14 @@ export class FireBaseService {
 
   }
   addArticle(article) {
-    console.log("addArticle -> article", article)
-    this.firedb.list('articles').push(article);
+    this.firedb.list('articles').push(article).then((ref: firebase.database.Reference) => { ref.update({ id: ref.key }) });
   }
   updateArticle(item: FirebaseOperation, data: Partial<any>) {
-    console.log("updateArticle -> data", data)
     // this.firedb.list('articles').set(item, data)
     var updates = {};
     updates['articles/' + item] = data;
-    this.firedb.database.ref().update(updates).then(() => this.updateArticlesOrderFilter())
+    this.firedb.database.ref().update(updates)
+    // .then(() => this.updateArticlesOrderFilter())   //test
   }
   deleteFileFS(filePath) {
     //Элементы database для удаления
@@ -167,6 +177,10 @@ export class FireBaseService {
 
     //Удаляем сам файл из storage
     this.fireStor.storage.refFromURL(filePath).delete()
+  }
+  deleteDocumentFireDB(id){
+    var imageDetailsRef = this.firedb.database.ref('articles').child(id)
+    imageDetailsRef.ref.remove()
   }
 }
 

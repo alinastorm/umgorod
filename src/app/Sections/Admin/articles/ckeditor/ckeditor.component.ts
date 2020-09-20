@@ -34,6 +34,7 @@ export class CkeditorComponent implements OnInit {
   };
   formItems: FormGroup
   controls: string[]
+  visible
 
   constructor(
     public dialogRef: MatDialogRef<CkeditorComponent>,
@@ -46,9 +47,10 @@ export class CkeditorComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.model = { editorData: this.data.html }
-    this.formItems = this.formBuilder.group(this.data)
-    this.controls = Object.keys(this.data)
+    this.model = { editorData: this.data.item.html }
+    this.formItems = this.formBuilder.group(this.data.item)
+    this.controls = Object.keys(this.data.item)
+    this.visible = this.data.ckeditor
 
     // Подписываемся на изменения полей
 

@@ -45,7 +45,6 @@
           <input
             matInput
             [matDatepicker]="picker"
-         
             readonly
             [value]="getDate(article.date)"
           />
@@ -77,8 +76,26 @@
 
       <div class="example-container">
         <mat-form-field>
-          <mat-label>Idea</mat-label>
-          <input matInput readonly [value]="article.idea" />
+          <mat-label>Topic</mat-label>
+          <input matInput readonly [value]="article.topic" />
+        </mat-form-field>
+      </div>
+      <div class="example-container">
+        <mat-form-field>
+          <mat-label>Partners</mat-label>
+          <input matInput readonly [value]="article.partners" />
+        </mat-form-field>
+      </div>
+      <div class="example-container">
+        <mat-form-field>
+          <mat-label>About</mat-label>
+          <input matInput readonly [value]="article.about" />
+        </mat-form-field>
+      </div>
+      <div class="example-container">
+        <mat-form-field>
+          <mat-label>Contacts</mat-label>
+          <input matInput readonly [value]="article.contacts" />
         </mat-form-field>
       </div>
       <!-- /Строки -->
@@ -96,7 +113,40 @@
           <!-- <mat-icon>html</mat-icon> -->
         </button>
       </div>
-      <!-- HTML Button -->
+
+      <!-- /HTML Button -->
+      <!-- marker Button -->
+      <div class="example-container">
+        <button
+          class=""
+          mat-mini-fab
+          color="primary"
+          aria-label="Example icon button with a menu icon"
+          (click)="editMarkerArticle(article)"
+        >
+          <mat-icon>map</mat-icon>
+
+          <!-- <mat-icon>html</mat-icon> -->
+        </button>
+      </div>
+      <!-- /marker Button -->
+
+      <!-- delete Button -->
+
+      <div class="example-container">
+        <button
+          class=""
+          mat-mini-fab
+          color="warn"
+          aria-label="Example icon button with a menu icon"
+          (click)="deleteArticle(article.id)"
+        >
+          <mat-icon>delete</mat-icon>
+
+          <!-- <mat-icon>html</mat-icon> -->
+        </button>
+      </div>
+      <!-- /delete Button -->
       <!-- Save Button -->
       <!-- <div class="example-container">
         <button

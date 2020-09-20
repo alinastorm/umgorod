@@ -1,360 +1,136 @@
-<p>
-  <mat-toolbar>
+
+  <mat-toolbar #toolbar>
     <mat-toolbar-row>
       <button
         mat-icon-button
-        class="example-icon menu"
+        class="example-icon mobilemenu"
         aria-label="Example icon-button with menu icon"
         (click)="hiddenBurger = !hiddenBurger"
       >
         <mat-icon>menu</mat-icon>
       </button>
-      <span>My App</span>
+      <a routerLink="">
+        <img class="logo ml-4" src="assets/logo2.png" alt="" />
+      </a>
       <span class="example-spacer"></span>
+
+<div class="menu" [hidden]="!hiddenBurger">
+
+  <button mat-button class="nav-item " onclick="this.blur()" routerLink="main" routerLinkActive="active"><h6>Главная</h6></button>
+  <button mat-button class="nav-item " onclick="this.blur()"  [routerLink]="['map']" [queryParams]="{}" routerLinkActive="active"><h6>Карта</h6></button>
+  <button mat-button class="nav-item " onclick="this.blur()" [routerLink]="['cities','all']" routerLinkActive="active"><h6>Города</h6></button>
+  <button mat-button class="nav-item " onclick="this.blur()" [routerLink]="['topics','all']"routerLinkActive="active"><h6>Темы</h6></button>
+  <button mat-button class="nav-item " onclick="this.blur()" [routerLink]="['people','all']" routerLinkActive="active"><h6>Люди</h6></button>
+  <button mat-button class="nav-item " onclick="this.blur()"  routerLink="partners" routerLinkActive="active"><h6>Партнеры</h6></button>
+  <button mat-button class="nav-item " onclick="this.blur()" routerLink="about" routerLinkActive="active"><h6>О форуме</h6></button>
+  <button mat-button class="nav-item " onclick="this.blur()" routerLink="contacts" routerLinkActive="active"><h6>Контакты</h6></button>
+  
+</div>
+
       <button
-        mat-icon-button
-        class="example-icon favorite-icon"
-        aria-label="Example icon-button with heart icon"
+        mat-icon-button color="primary"
+        class="example-icon"
+        aria-label="Example icon-button with share icon"
+        *ngIf="!(this.currentUser | async)"
+        (click)="openDialog()"
       >
-        <mat-icon>favorite</mat-icon>
+        <mat-icon class="gi-2_5x">fingerprint</mat-icon>
       </button>
-      <button mat-button color="primary"><span>My App</span></button>
       <button
         mat-icon-button
         class="example-icon"
         aria-label="Example icon-button with share icon"
+        *ngIf="this.currentUser | async as user"
+        routerLink="admin"
+        
+        onclick="this.blur()"
       >
-        <mat-icon>share</mat-icon>
+        <mat-icon class="gi-2_5x" >face</mat-icon>
       </button>
     </mat-toolbar-row>
 
+    <!-- Burger -->
     <mat-toolbar-row [hidden]="hiddenBurger">
-      <button mat-button >Главная</button>
+      <button mat-button routerLink="main" (click)="hiddenBurger = !hiddenBurger" routerLinkActive="active">Главная</button>
     </mat-toolbar-row>
+
     <mat-toolbar-row [hidden]="hiddenBurger">
-      <button mat-button >Карта</button>
+      <button mat-button routerLink="map" (click)="hiddenBurger = !hiddenBurger" routerLinkActive="active">Карта</button>
+    </mat-toolbar-row>
+
+    <mat-toolbar-row [hidden]="hiddenBurger">
+      <button mat-button routerLink="cities" (click)="hiddenBurger = !hiddenBurger" routerLinkActive="active">Города</button>
     </mat-toolbar-row>
  
-    <mat-toolbar-row [hidden]="hiddenBurger">
-      <button mat-button [matMenuTriggerFor]="cities">Города</button>
+    <!-- <mat-toolbar-row [hidden]="hiddenBurger">
+      <button mat-button  [matMenuTriggerFor]="cities" routerLink="cities" routerLinkActive="active">Города</button>
 
       <mat-menu #cities="matMenu">      
-        <ng-container *ngFor="let article of articles | console:'do' |async | pluck: 'city'  | console:'posle async'  |groupBy: 'city'| console:'posle groupBy'" >
-          <button mat-menu-item  [matMenuTriggerFor]="articles">{{article|json}}</button>
-          <mat-menu #articles="matMenu" >
-            <ng-container *ngFor="let article2 of articles2.city |async ">
-              <button *ngIf="article2.city === article.city " mat-menu-item>{{article2.nameArticle}}</button>
-            </ng-container>
-          </mat-menu>
+        <ng-container *ngFor="let article of articles |async | groupBy: 'city' " >
+            <button mat-menu-item  [matMenuTriggerFor]="articles">{{article.key}}</button>
+            <mat-menu #articles="matMenu" >
+              <ng-container *ngFor="let anderarticle of article.value ">
+                <button mat-menu-item>{{anderarticle.nameArticle}}</button>
+              </ng-container>
+            </mat-menu>
         </ng-container>
       </mat-menu>
-      
-      
- 
+    </mat-toolbar-row> -->
 
-      
+    <!-- <mat-toolbar-row [hidden]="hiddenBurger">
+      <button mat-button  [matMenuTriggerFor]="cities" routerLinkActive="active">Люди</button>
+
+      <mat-menu #cities="matMenu">      
+        <ng-container *ngFor="let article of articles |async  | groupBy: 'city' " >
+            <button mat-menu-item  [matMenuTriggerFor]="articles">{{article.key}}</button>
+            <mat-menu #articles="matMenu" >
+              <ng-container *ngFor="let anderarticle of article.value ">
+                <button mat-menu-item>{{anderarticle.nameArticle}}</button>
+              </ng-container>
+            </mat-menu>
+        </ng-container>
+      </mat-menu>
+    </mat-toolbar-row> -->
+
+
+    <!-- <mat-toolbar-row [hidden]="hiddenBurger">
+      <button mat-button  [matMenuTriggerFor]="cities" routerLinkActive="active">Идеи</button>
+
+      <mat-menu #cities="matMenu">      
+        <ng-container *ngFor="let article of articles |async  | groupBy: 'city' " >
+            <button mat-menu-item  [matMenuTriggerFor]="articles">{{article.key}}</button>
+            <mat-menu #articles="matMenu" >
+              <ng-container *ngFor="let anderarticle of article.value ">
+                <button mat-menu-item>{{anderarticle.nameArticle}}</button>
+              </ng-container>
+            </mat-menu>
+        </ng-container>
+      </mat-menu>
+    </mat-toolbar-row> -->
+
+   <mat-toolbar-row [hidden]="hiddenBurger">
+      <button mat-button routerLink="topics" (click)="hiddenBurger = !hiddenBurger" routerLinkActive="active">Темы</button>
     </mat-toolbar-row>
+
+   <mat-toolbar-row [hidden]="hiddenBurger">
+      <button mat-button routerLink="people" (click)="hiddenBurger = !hiddenBurger" routerLinkActive="active">Люди</button>
+    </mat-toolbar-row>
+
+   <mat-toolbar-row [hidden]="hiddenBurger">
+      <button mat-button routerLink="partners" (click)="hiddenBurger = !hiddenBurger" routerLinkActive="active">Партнеры</button>
+    </mat-toolbar-row>
+    
+    <mat-toolbar-row [hidden]="hiddenBurger">
+      <button mat-button routerLink="about" (click)="hiddenBurger = !hiddenBurger" routerLinkActive="active">О форуме</button>
+    </mat-toolbar-row>
+
+    <mat-toolbar-row [hidden]="hiddenBurger">
+      <button mat-button routerLink="contacts" (click)="hiddenBurger = !hiddenBurger" routerLinkActive="active">Контакты</button>
+    </mat-toolbar-row>
+    <!-- /Burger -->
+
   </mat-toolbar>
-</p>
 
-<nav class="navbar navbar-expand-md navbar-light border-bottom">
-  <!-- <span class="navbar-brand ">Умный город</span> -->
-  <a routerLink="">
-    <img class="logo" src="assets/logo2.png" alt="" />
-  </a>
-  <button
-    class="navbar-toggler"
-    type="button"
-    aria-controls="navbarContent"
-    [attr.aria-expanded]="!collapsed"
-    aria-label="Toggle navigation"
-    (click)="collapsed = !collapsed"
-  >
-    <span class="navbar-toggler-icon"></span>
-  </button>
 
-  <div class="navbar-collapse" [class.collapse]="collapsed" id="navbarContent">
-    <ul class="nav ml-auto">
-      <li class="nav-item text-dark">
-        <a
-          class="nav-link mr-2"
-          style="cursor: pointer;"
-          id=""
-          role="button"
-          routerLink="main"
-        >
-          <h5>
-            Главная
-          </h5>
-        </a>
-      </li>
 
-      <li class="nav-item text-dark">
-        <h5>
-          <a
-            class="nav-link mr-2"
-            style="cursor: pointer;"
-            role="button"
-            routerLink="map"
-          >
-            Карта
-          </a>
-        </h5>
-      </li>
 
-      <li class="nav-item text-dark" ngbDropdown>
-        <h5>
-          <a
-            class="nav-link mr-2"
-            style="cursor: pointer;"
-            ngbDropdownToggle
-            id="navbarDropdown1"
-            role="button"
-            routerLink="cities"
-          >
-            Города
-          </a>
-        </h5>
-        <div
-          ngbDropdownMenu
-          aria-labelledby="navbarDropdown1"
-          class="dropdown-menu dropdown-menu-right"
-        >
-          <a ngbDropdownItem href="#" (click)="$event.preventDefault()"
-            >Action</a
-          >
-          <a ngbDropdownItem href="#" (click)="$event.preventDefault()"
-            >Another action</a
-          >
-          <a ngbDropdownItem href="#" (click)="$event.preventDefault()"
-            >Something else here</a
-          >
-        </div>
-      </li>
-
-      <li class="nav-item text-dark" ngbDropdown>
-        <h5>
-          <a
-            class="nav-link mr-2"
-            style="cursor: pointer;"
-            ngbDropdownToggle
-            id="navbarDropdown2"
-            role="button"
-          >
-            Люди
-          </a>
-        </h5>
-        <div
-          ngbDropdownMenu
-          aria-labelledby="navbarDropdown2"
-          class="dropdown-menu dropdown-menu-right"
-        >
-          <a ngbDropdownItem href="#" (click)="$event.preventDefault()"
-            >Action</a
-          >
-          <a ngbDropdownItem href="#" (click)="$event.preventDefault()"
-            >Another action</a
-          >
-          <a ngbDropdownItem href="#" (click)="$event.preventDefault()"
-            >Something else here</a
-          >
-        </div>
-      </li>
-
-      <li
-        class="nav-item text-dark"
-        ngbDropdown
-        display="dynamic"
-        placement="bottom-right"
-      >
-        <h5>
-          <a
-            class="nav-link mr-2"
-            style="cursor: pointer;"
-            ngbDropdownToggle
-            id="navbarDropdown3"
-            role="button"
-          >
-            Идеи
-          </a>
-        </h5>
-        <div
-          ngbDropdownMenu
-          aria-labelledby="navbarDropdown3"
-          class="dropdown-menu"
-        >
-          <a ngbDropdownItem href="#" (click)="$event.preventDefault()"
-            >Action</a
-          >
-          <a ngbDropdownItem href="#" (click)="$event.preventDefault()"
-            >Another action</a
-          >
-          <a ngbDropdownItem href="#" (click)="$event.preventDefault()"
-            >Something else here</a
-          >
-        </div>
-      </li>
-
-      <li
-        class="nav-item text-dark"
-        ngbDropdown
-        display="dynamic"
-        placement="bottom-right"
-      >
-        <h5>
-          <a
-            class="nav-link mr-2"
-            style="cursor: pointer;"
-            id="navbarDropdown3"
-            role="button"
-          >
-            Партнеры
-          </a>
-        </h5>
-      </li>
-      <!-- <li class="nav-item text-dark" ngbDropdown>
-          <a class="nav-link mr-2" style="cursor: pointer"  id="navbarDropdown1" role="button">
-            <h5>
-              Галерея
-            </h5>
-          </a>
-        </li> -->
-
-      <li class="nav-item text-dark" ngbDropdown>
-        <a
-          class="nav-link mr-2"
-          style="cursor: pointer;"
-          id="navbarDropdown1"
-          role="button"
-          routerLink="about"
-        >
-          <h5>
-            О форуме
-          </h5>
-        </a>
-      </li>
-
-      <li class="nav-item text-dark" ngbDropdown>
-        <a
-          class="nav-link mr-2"
-          style="cursor: pointer;"
-          id="navbarDropdown1"
-          role="button"
-        >
-          <h5>
-            Контакты
-          </h5>
-        </a>
-      </li>
-
-      <li
-        *ngIf="!(this.currentUser | async)"
-        class="nav-item text-dark"
-        style="display: flex; align-items: center;"
-        ngbDropdown
-      >
-        <!-- <a class="nav-link mr-2"  style="cursor: pointer"  id="navbarDropdown1" role="button">
-            <h5>
-              Login
-            </h5>
-          </a> -->
-        <button
-          type="button"
-          class="btn btn-primary mt-1 mr-2"
-          data-toggle="modal"
-          data-target="#exampleModal"
-        >
-          Sign In
-        </button>
-      </li>
-      <li
-        *ngIf="this.currentUser | async as user"
-        class="nav-item text-dark border rounded"
-        ngbDropdown
-      >
-        <a
-          class="nav-link mr-2"
-          style="cursor: pointer;"
-          id="navbarDropdown1"
-          role="button"
-          routerLink="admin"
-        >
-          <h5>
-            {{ user.email }}
-          </h5>
-        </a>
-      </li>
-    </ul>
-  </div>
-</nav>
-
-<div
-  class="modal fade"
-  id="exampleModal"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="exampleModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Authentication</h5>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form [formGroup]="formLogin" (submit)="authWithEmailAndPassword()">
-          <div class="form-group">
-            <label for="recipient-name" class="col-form-label">Email:</label>
-            <input
-              type="email"
-              class="form-control"
-              [class.is-invalid]="this.formLogin.controls.email.errors"
-              id="recipient-name"
-              formControlName="email"
-            />
-          </div>
-          <div class="form-group">
-            <label for="recipient-name" class="col-form-label">Password:</label>
-            <input
-              type="password"
-              class="form-control"
-              [class.is-invalid]="this.formLogin.controls.password.errors"
-              id="recipient-name"
-              formControlName="password"
-            />
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              #closeModal
-              class="btn btn-secondary"
-              data-dismiss="modal"
-            >
-              Close
-            </button>
-            <button
-              type="submit"
-              [className]="
-                !formLogin.valid ? 'btn btn-danger' : 'btn btn-primary'
-              "
-              [disabled]="!formLogin.valid"
-            >
-              Login
-            </button>
-          </div>
-          <div *ngIf="this.formLogin.errors">
-            {{ this.formLogin.errors.errors.message | json }}
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
